@@ -1,13 +1,22 @@
 class Ship:
+    '''
+    It's a ship
+    '''
+
     def __init__(self, coordinates):
         '''
         coordinates is [(0, 0), (9, 3), ...]
         '''
         self.coordinates = coordinates
-        self.length = len(coordinates)
+        self.orientation = 'H' if coordinates[0][0] == coordinates[-1][0] else 'V'
+        self.length = (1, len(coordinates)) if self.orientation == 'H' else (len(coordinates), 1)
 
 
 class Field:
+    '''
+    It's a field
+    '''
+
     def __init__(self, filename=None, rand=False):
         if not filename and not rand:
             self.lines = ['-' * 10 for _ in range(10)]
@@ -105,27 +114,57 @@ class Field:
                 self.lines = ['-' * 10 for _ in range(10)]
 
     def field_to_str(self, filename):
+        '''
+        Writes field into file
+        :param filename:
+        :return: None
+        '''
         with open(filename, 'w') as f:
             for line in self.lines:
                 f.write(line + '\n')
 
     def has_ship(self, coordinate):
+        '''
+        Checks if klitynka has a ship
+        :param coordinate:
+        :return: bool
+        '''
         for ship in self.ships:
             if coordinate in ship.coordinates:
                 return True
         return False
 
     def ship_size(self, coordinate):
+        '''
+        :param coordinate:
+        :return: size of ship
+        '''
         for ship in self.ships:
             if coordinate in ship.coordinates:
                 return ship.length
         return 0
 
     def is_valid(self):
-        counter = [0,0,0,0]
+        '''
+        Check if current field is valid
+        :return:
+        '''
+        counter = [0, 0, 0, 0]
         for ship in self.ships:
-            counter[ship.length-1]+=1
-        if counter == [4,3,2,1]:
+            counter[ship.length - 1] += 1
+        if counter == [4, 3, 2, 1]:
             return True
         else:
             return False
+
+
+class Player:
+    def __init__(self):
+        pass
+
+    def pew(self, coordinate):
+        pass
+
+
+class Game:  # what is game?
+    pass
